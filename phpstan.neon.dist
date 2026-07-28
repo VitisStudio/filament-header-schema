@@ -1,0 +1,17 @@
+parameters:
+    level: 5
+    paths:
+        - src
+        # The trait is only ever applied by consuming applications, so the test
+        # fixture pages are analysed too — otherwise PHPStan never sees it used.
+        - tests/Fixtures
+    ignoreErrors:
+        # Larastan builds its list of known views by stripping the view
+        # directory prefix off each Blade file it finds, so the names it
+        # produces are never namespaced. It therefore cannot recognise a view
+        # a package registers under its own namespace, and flags every one as
+        # unknown. The check is inapplicable here rather than failing.
+        -
+            identifier: argument.type
+            message: '#expects view-string\|null, string given#'
+    tmpDir: build/phpstan

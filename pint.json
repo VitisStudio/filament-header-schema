@@ -1,0 +1,9 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "types_spaces": {
+            "space": "single",
+            "space_multiple_catch": "none"
+        }
+    }
+}

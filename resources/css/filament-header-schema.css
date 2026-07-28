@@ -1,0 +1,380 @@
+/*
+ * Plain CSS — no Tailwind, no build step. Every value is a Filament design
+ * token, so a panel with a custom theme picks up its own colours, spacing and
+ * type scale for free. Breakpoints match Tailwind's defaults, which is what
+ * Filament itself ships.
+ *
+ * This file is inlined into the <head> by FilamentHeaderSchemaServiceProvider.
+ */
+
+.fi-hs-header-main {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* Heading
+   ---------------------------------------------------------------------- */
+
+.fi-hs-heading {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing) * 2);
+    overflow-wrap: break-word;
+    color: var(--color-gray-950);
+}
+
+.dark .fi-hs-heading {
+    color: var(--color-white);
+}
+
+.fi-hs-heading.fi-color-neutral {
+    color: var(--color-gray-950);
+}
+
+.dark .fi-hs-heading.fi-color-neutral {
+    color: var(--color-white);
+}
+
+.fi-hs-heading.fi-color:not(.fi-color-neutral) {
+    color: var(--text);
+}
+
+.dark .fi-hs-heading.fi-color:not(.fi-color-neutral) {
+    color: var(--dark-text);
+}
+
+/* Tracking is written out rather than read from a token: Tailwind only emits
+   the `--tracking-*` variables a theme actually uses, so they are not
+   guaranteed to exist in every panel's compiled stylesheet. */
+
+.fi-hs-heading-level-1,
+.fi-hs-heading-level-2,
+.fi-hs-heading-level-3 {
+    letter-spacing: -0.025em;
+}
+
+.fi-hs-heading-level-1,
+.fi-hs-heading-level-2 {
+    font-weight: var(--font-weight-bold);
+}
+
+.fi-hs-heading-level-3,
+.fi-hs-heading-level-4,
+.fi-hs-heading-level-5,
+.fi-hs-heading-level-6 {
+    font-weight: var(--font-weight-semibold);
+}
+
+.fi-hs-heading-level-6 {
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+/* Default size per level. An explicit `->size()` emits `.fi-hs-size-*`, which
+   is a two-class selector and therefore always wins over these. */
+
+.fi-hs-heading-level-1 {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
+}
+
+.fi-hs-heading-level-2 {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+}
+
+.fi-hs-heading-level-3 {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+}
+
+.fi-hs-heading-level-4 {
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+}
+
+.fi-hs-heading-level-5 {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+}
+
+.fi-hs-heading-level-6 {
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+}
+
+@media (min-width: 40rem) {
+    .fi-hs-heading-level-1 {
+        font-size: var(--text-3xl);
+        line-height: var(--text-3xl--line-height);
+    }
+
+    .fi-hs-heading-level-2 {
+        font-size: var(--text-2xl);
+        line-height: var(--text-2xl--line-height);
+    }
+
+    .fi-hs-heading-level-3 {
+        font-size: var(--text-xl);
+        line-height: var(--text-xl--line-height);
+    }
+}
+
+/* Subheading
+   ---------------------------------------------------------------------- */
+
+.fi-hs-subheading {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing) * 2);
+    max-width: var(--container-2xl);
+    overflow-wrap: break-word;
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+    color: var(--color-gray-600);
+}
+
+.dark .fi-hs-subheading {
+    color: var(--color-gray-400);
+}
+
+.fi-hs-subheading.fi-color-neutral {
+    color: var(--color-gray-950);
+}
+
+.dark .fi-hs-subheading.fi-color-neutral {
+    color: var(--color-white);
+}
+
+.fi-hs-subheading.fi-color:not(.fi-color-neutral) {
+    color: var(--text);
+}
+
+.dark .fi-hs-subheading.fi-color:not(.fi-color-neutral) {
+    color: var(--dark-text);
+}
+
+/* Shared size and weight modifiers
+   ---------------------------------------------------------------------- */
+
+.fi-hs-heading.fi-hs-size-xs,
+.fi-hs-subheading.fi-hs-size-xs {
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+}
+
+.fi-hs-heading.fi-hs-size-sm,
+.fi-hs-subheading.fi-hs-size-sm {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+}
+
+.fi-hs-heading.fi-hs-size-md,
+.fi-hs-subheading.fi-hs-size-md {
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+}
+
+.fi-hs-heading.fi-hs-size-lg,
+.fi-hs-subheading.fi-hs-size-lg {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+}
+
+.fi-hs-heading.fi-hs-size-xl,
+.fi-hs-subheading.fi-hs-size-xl {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+}
+
+.fi-hs-heading.fi-hs-size-2xl,
+.fi-hs-subheading.fi-hs-size-2xl {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
+}
+
+.fi-hs-heading.fi-hs-size-3xl,
+.fi-hs-subheading.fi-hs-size-3xl {
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl--line-height);
+}
+
+.fi-hs-heading.fi-font-thin,
+.fi-hs-subheading.fi-font-thin {
+    font-weight: var(--font-weight-thin);
+}
+
+.fi-hs-heading.fi-font-extralight,
+.fi-hs-subheading.fi-font-extralight {
+    font-weight: var(--font-weight-extralight);
+}
+
+.fi-hs-heading.fi-font-light,
+.fi-hs-subheading.fi-font-light {
+    font-weight: var(--font-weight-light);
+}
+
+.fi-hs-heading.fi-font-normal,
+.fi-hs-subheading.fi-font-normal {
+    font-weight: var(--font-weight-normal);
+}
+
+.fi-hs-heading.fi-font-medium,
+.fi-hs-subheading.fi-font-medium {
+    font-weight: var(--font-weight-medium);
+}
+
+.fi-hs-heading.fi-font-semibold,
+.fi-hs-subheading.fi-font-semibold {
+    font-weight: var(--font-weight-semibold);
+}
+
+.fi-hs-heading.fi-font-bold,
+.fi-hs-subheading.fi-font-bold {
+    font-weight: var(--font-weight-bold);
+}
+
+.fi-hs-heading.fi-font-extrabold,
+.fi-hs-subheading.fi-font-extrabold {
+    font-weight: var(--font-weight-extrabold);
+}
+
+.fi-hs-heading.fi-font-black,
+.fi-hs-subheading.fi-font-black {
+    font-weight: var(--font-weight-black);
+}
+
+/* HeaderSection
+   ---------------------------------------------------------------------- */
+
+.fi-hs-section {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) * 4);
+}
+
+.fi-hs-section.fi-dense {
+    gap: calc(var(--spacing) * 3);
+}
+
+.fi-hs-section-leading,
+.fi-hs-section-trailing {
+    flex-shrink: 0;
+}
+
+.fi-hs-section-main {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.fi-hs-section.fi-from-default {
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.fi-hs-section.fi-from-default.fi-vertical-align-center {
+    align-items: center;
+}
+
+.fi-hs-section.fi-from-default.fi-vertical-align-end {
+    align-items: flex-end;
+}
+
+.fi-hs-section.fi-from-default > .fi-hs-section-trailing {
+    text-align: end;
+}
+
+@media (min-width: 40rem) {
+    .fi-hs-section.fi-from-sm {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .fi-hs-section.fi-from-sm.fi-vertical-align-center {
+        align-items: center;
+    }
+
+    .fi-hs-section.fi-from-sm.fi-vertical-align-end {
+        align-items: flex-end;
+    }
+
+    .fi-hs-section.fi-from-sm > .fi-hs-section-trailing {
+        text-align: end;
+    }
+}
+
+@media (min-width: 48rem) {
+    .fi-hs-section.fi-from-md {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .fi-hs-section.fi-from-md.fi-vertical-align-center {
+        align-items: center;
+    }
+
+    .fi-hs-section.fi-from-md.fi-vertical-align-end {
+        align-items: flex-end;
+    }
+
+    .fi-hs-section.fi-from-md > .fi-hs-section-trailing {
+        text-align: end;
+    }
+}
+
+@media (min-width: 64rem) {
+    .fi-hs-section.fi-from-lg {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .fi-hs-section.fi-from-lg.fi-vertical-align-center {
+        align-items: center;
+    }
+
+    .fi-hs-section.fi-from-lg.fi-vertical-align-end {
+        align-items: flex-end;
+    }
+
+    .fi-hs-section.fi-from-lg > .fi-hs-section-trailing {
+        text-align: end;
+    }
+}
+
+@media (min-width: 80rem) {
+    .fi-hs-section.fi-from-xl {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .fi-hs-section.fi-from-xl.fi-vertical-align-center {
+        align-items: center;
+    }
+
+    .fi-hs-section.fi-from-xl.fi-vertical-align-end {
+        align-items: flex-end;
+    }
+
+    .fi-hs-section.fi-from-xl > .fi-hs-section-trailing {
+        text-align: end;
+    }
+}
+
+@media (min-width: 96rem) {
+    .fi-hs-section.fi-from-2xl {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .fi-hs-section.fi-from-2xl.fi-vertical-align-center {
+        align-items: center;
+    }
+
+    .fi-hs-section.fi-from-2xl.fi-vertical-align-end {
+        align-items: flex-end;
+    }
+
+    .fi-hs-section.fi-from-2xl > .fi-hs-section-trailing {
+        text-align: end;
+    }
+}
