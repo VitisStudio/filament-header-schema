@@ -63,7 +63,67 @@ That's the whole install. There is no asset to publish and no theme change to ma
 
 ## Usage
 
-### Opting a page in
+### Generating one
+
+```bash
+php artisan make:filament-header-schema
+```
+
+It asks which resource the header belongs to, then which of that resource's pages should use it — a multi-select built from the pages the resource actually registers, so you only ever see `ListOrders`, `ViewOrder`, `EditOrder` and friends. List, view and edit are pre-selected; create is not.
+
+The schema class lands in the resource's `Schemas` directory, next to the `OrderForm` and `OrderInfolist` Filament generates:
+
+```
+app/Filament/Resources/Orders/
+├── OrderResource.php
+├── Pages/
+│   ├── ViewOrder.php          ← trait applied
+│   └── EditOrder.php          ← trait applied
+└── Schemas/
+    ├── OrderForm.php
+    ├── OrderInfolist.php
+    └── OrderHeader.php        ← generated
+```
+
+```php
+namespace App\Filament\Resources\Orders\Schemas;
+
+use Filament\Schemas\Schema;
+use VitisStudio\FilamentHeaderSchema\Components\HeaderSection;
+use VitisStudio\FilamentHeaderSchema\Components\Heading;
+
+class OrderHeader
+{
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                HeaderSection::make([
+                    Heading::make('reference')
+                        ->default(fn ($livewire) => $livewire->getHeading()),
+                    //
+                ]),
+            ]);
+    }
+}
+```
+
+The heading is seeded from the resource's record title attribute. The `->default()` matters more than it looks: one header schema serves every page of the resource, and a list page has no record to read `reference` from, so it falls back to the page's own heading. Opting a page in never leaves it with no title.
+
+The trait finds `{Model}Header` in the resource's `Schemas` namespace by convention — nothing references it by name, so a page only has to apply the trait.
+
+Useful options:
+
+| Option | Effect |
+|---|---|
+| `--page=view --page=edit` | Skip the prompt and apply the trait to these route keys |
+| `--no-pages` | Only generate the class; wire the trait up yourself |
+| `--panel`, `--cluster`, `--resource-namespace` | Skip the corresponding prompt |
+| `-F`, `--force` | Overwrite an existing schema class |
+
+Applying the trait edits your page files in place, adding one import and one `use` statement. It is idempotent, and everything else in the file — formatting, docblocks, other traits — is left alone.
+
+### Opting a page in by hand
 
 Add the trait to any resource View, Edit or List page and define `headerSchema()`:
 
@@ -83,13 +143,15 @@ class ViewOrder extends ViewRecord
 }
 ```
 
+A `headerSchema()` method on the page takes precedence over the conventional `Schemas` class, so you can generate one for the resource and still override it on a single page.
+
 The schema replaces the page's heading and subheading. Breadcrumbs and the header actions row are untouched, so `getHeaderActions()` keeps working exactly as before — they are pinned to the top of the header rather than centred against it, so they stay level with the heading however tall the schema grows.
 
 ![A list page header with a heading and a computed subheading](art/list-page.png)
 
 ### Falling back to the old way
 
-The trait is additive. A page with no `headerSchema()` method — or one whose schema resolves to no components — renders Filament's native heading, unchanged. You can apply the trait to a base page class and opt individual pages in over time.
+The trait is additive. A page with no `headerSchema()` method and no conventional `Schemas` class — or one whose schema resolves to no components — renders Filament's native heading, unchanged. You can apply the trait to a base page class and opt individual pages in over time. Custom pages that are not resource pages have no resource to resolve a class from, so they need `headerSchema()` declared on the page.
 
 ![A create page keeping Filament's native heading](art/fallback-page.png)
 

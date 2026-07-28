@@ -7,6 +7,7 @@ use Filament\View\PanelsRenderHook;
 use Illuminate\Support\HtmlString;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use VitisStudio\FilamentHeaderSchema\Commands\MakeHeaderSchemaCommand;
 
 class FilamentHeaderSchemaServiceProvider extends PackageServiceProvider
 {
@@ -16,7 +17,8 @@ class FilamentHeaderSchemaServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('filament-header-schema')
-            ->hasViews();
+            ->hasViews()
+            ->hasCommand(MakeHeaderSchemaCommand::class);
     }
 
     public function packageBooted(): void
