@@ -11,6 +11,7 @@ use Filament\Support\Concerns\HasIcon;
 use Filament\Support\Concerns\HasIconPosition;
 use Filament\Support\Concerns\HasIconSize;
 use Filament\Support\Concerns\HasWeight;
+use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Enums\IconSize;
@@ -92,17 +93,24 @@ class Subheading extends Entry implements HasEmbeddedView
         $iconSize = $this->getIconSize();
         $weight = $this->getWeight();
         $size = $this->getSize();
+        $alignment = $this->getAlignment();
 
         if (filled($iconSize) && ! $iconSize instanceof IconSize) {
             $iconSize = IconSize::tryFrom($iconSize) ?? $iconSize;
+        }
+
+        if (! $alignment instanceof Alignment) {
+            $alignment = filled($alignment) ? (Alignment::tryFrom($alignment) ?? $alignment) : null;
         }
 
         $attributes = (new FilamentComponentAttributeBag)
             ->color(TextComponent::class, $this->getColor())
             ->class([
                 'fi-hs-subheading',
+                'fi-hs-has-icon' => filled($icon),
                 filled($size) ? "fi-hs-size-{$size}" : null,
                 ($weight instanceof FontWeight) ? "fi-font-{$weight->value}" : $weight,
+                ($alignment instanceof Alignment) ? "fi-align-{$alignment->value}" : $alignment,
             ])
             ->merge($this->getExtraAttributes(), escape: false);
 

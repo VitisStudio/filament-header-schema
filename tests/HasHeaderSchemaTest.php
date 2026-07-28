@@ -53,6 +53,15 @@ it('binds the header schema to the record on record pages', function () {
     expect($page->getHeaderSchemaRecord())->toBe($order);
 });
 
+it('makes the header schema dense so it spaces like a header, not page content', function () {
+    $order = order();
+
+    $page = new ViewOrder;
+    $page->record = $order;
+
+    expect($page->getSchema('headerSchema')->isDense())->toBeTrue();
+});
+
 it('has no header schema record on a list page', function () {
     expect((new ListOrders)->getHeaderSchemaRecord())->toBeNull();
 });

@@ -12,15 +12,35 @@
     min-width: 0;
 }
 
+/* Filament centres the actions row against the heading, which reads correctly
+   for one line of text but leaves the actions floating in the middle of a
+   header schema tall enough to hold an avatar, a badge row and a description.
+   Pin them to the top instead. Filament's own `sm:mt-7` on the actions
+   container already offsets the breadcrumbs, so they land level with the
+   heading rather than the breadcrumb trail. */
+
+@media (min-width: 40rem) {
+    .fi-header.fi-hs-header {
+        align-items: flex-start;
+    }
+}
+
 /* Heading
    ---------------------------------------------------------------------- */
 
+/* Block by default so the element inherits `text-align` from whatever slot it
+   sits in; flex only when an icon has to be centred against the text. */
+
 .fi-hs-heading {
+    display: block;
+    overflow-wrap: break-word;
+    color: var(--color-gray-950);
+}
+
+.fi-hs-heading.fi-hs-has-icon {
     display: flex;
     align-items: center;
     gap: calc(var(--spacing) * 2);
-    overflow-wrap: break-word;
-    color: var(--color-gray-950);
 }
 
 .dark .fi-hs-heading {
@@ -124,14 +144,18 @@
    ---------------------------------------------------------------------- */
 
 .fi-hs-subheading {
-    display: flex;
-    align-items: center;
-    gap: calc(var(--spacing) * 2);
+    display: block;
     max-width: var(--container-2xl);
     overflow-wrap: break-word;
     font-size: var(--text-lg);
     line-height: var(--text-lg--line-height);
     color: var(--color-gray-600);
+}
+
+.fi-hs-subheading.fi-hs-has-icon {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing) * 2);
 }
 
 .dark .fi-hs-subheading {
@@ -154,8 +178,31 @@
     color: var(--dark-text);
 }
 
-/* Shared size and weight modifiers
+/* Shared alignment, size and weight modifiers
    ---------------------------------------------------------------------- */
+
+.fi-hs-heading.fi-align-start,
+.fi-hs-heading.fi-align-left,
+.fi-hs-subheading.fi-align-start,
+.fi-hs-subheading.fi-align-left {
+    justify-content: flex-start;
+    text-align: start;
+}
+
+.fi-hs-heading.fi-align-center,
+.fi-hs-subheading.fi-align-center {
+    justify-content: center;
+    text-align: center;
+}
+
+.fi-hs-heading.fi-align-end,
+.fi-hs-heading.fi-align-right,
+.fi-hs-subheading.fi-align-end,
+.fi-hs-subheading.fi-align-right {
+    justify-content: flex-end;
+    text-align: end;
+}
+
 
 .fi-hs-heading.fi-hs-size-xs,
 .fi-hs-subheading.fi-hs-size-xs {
@@ -247,19 +294,31 @@
 /* HeaderSection
    ---------------------------------------------------------------------- */
 
+/* Slots sit further apart than the components stacked inside them, so the
+   section keeps a roomier gap than the schema it inherits density from. */
+
 .fi-hs-section {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--spacing) * 4);
+    gap: calc(var(--spacing) * 6);
 }
 
 .fi-hs-section.fi-dense {
-    gap: calc(var(--spacing) * 3);
+    gap: calc(var(--spacing) * 4);
 }
 
 .fi-hs-section-leading,
 .fi-hs-section-trailing {
     flex-shrink: 0;
+}
+
+/* The trailing slot sizes to its content. Filament's Flex makes its children
+   growable by default, which is right in a full-width layout but here would
+   stretch them to fill a slot that has no width of its own to give. */
+
+.fi-hs-section-trailing .fi-sc-flex > .fi-growable {
+    width: auto;
+    flex: 0 1 auto;
 }
 
 .fi-hs-section-main {

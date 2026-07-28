@@ -1,0 +1,33 @@
+laravel: '@testbench'
+
+providers:
+    - Workbench\App\Providers\DemoPanelProvider
+
+migrations:
+    - workbench/database/migrations
+
+seeders:
+    - Workbench\Database\Seeders\DatabaseSeeder
+
+env:
+    - APP_ENV=local
+    - APP_NAME="Header Schema Demo"
+    - DB_CONNECTION=sqlite
+
+workbench:
+    start: '/admin/orders'
+    user: demo@vitis.studio
+    install: true
+    health: false
+    discovers:
+        web: true
+        factories: true
+    build:
+        - asset-publish
+        - filament-assets
+        # `migrate-fresh` also runs the seeders declared above, so there is no
+        # separate seed step.
+        - create-sqlite-db
+        - migrate-fresh
+    assets:
+        - laravel-assets

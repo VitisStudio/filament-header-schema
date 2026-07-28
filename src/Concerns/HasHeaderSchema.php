@@ -28,7 +28,12 @@ trait HasHeaderSchema
             $schema->columns(1);
         }
 
-        return $schema->record($this->getHeaderSchemaRecord());
+        // A schema's default gap is built for page content and reads as loose
+        // in a header, where Filament's own heading and subheading sit 0.5rem
+        // apart. `->dense(false)` restores the roomier spacing.
+        return $schema
+            ->dense()
+            ->record($this->getHeaderSchemaRecord());
     }
 
     /**

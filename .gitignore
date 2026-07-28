@@ -25,8 +25,13 @@ _ide_helper_models.php
 /.vscode
 
 # Misc
+# `testbench.yaml` is deliberately not ignored — it is what wires up the
+# workbench demo app, so it belongs in the repository.
 phpunit.xml
 phpstan.neon
-testbench.yaml
 /docs
 /coverage
+
+# Workbench
+/workbench/storage
+/.playwright-mcp

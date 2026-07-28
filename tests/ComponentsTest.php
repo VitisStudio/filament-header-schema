@@ -118,6 +118,22 @@ it('renders a heading icon on either side', function (IconPosition $position, st
     [IconPosition::After, 'INV-1024.*fi-icon'],
 ]);
 
+it('only makes a heading a flex container when it has an icon', function () {
+    expect(renderHeader([Heading::make('reference')]))
+        ->not->toContain('fi-hs-has-icon');
+
+    expect(renderHeader([Heading::make('reference')->icon(Heroicon::Star)]))
+        ->toContain('fi-hs-has-icon');
+});
+
+it('applies an alignment class to a heading and a subheading', function () {
+    expect(renderHeader([Heading::make('reference')->alignEnd()]))
+        ->toContain('fi-align-end');
+
+    expect(renderHeader([Subheading::make('customer_name')->alignCenter()]))
+        ->toContain('fi-align-center');
+});
+
 it('renders a subheading as a paragraph', function () {
     expect(renderHeader([Subheading::make('customer_name')]))
         ->toContain('<p')

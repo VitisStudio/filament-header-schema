@@ -9,6 +9,8 @@ Build the header of a Filament page with a schema instead of a Blade view.
 
 Filament gives you `getHeading()` and `getSubheading()` for plain text, and `getHeader()` for everything else — which means dropping to a Blade view the moment you want an avatar next to the title, a status badge beside it, and a couple of totals pushed to the right. This package adds a `headerSchema()` method that sits alongside `form()` and `infolist()`, so a rich header is written the same way as the rest of the page.
 
+![A record page header with an avatar, heading, badge row, description and order total](art/view-page.png)
+
 ```php
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\ViewRecord;
@@ -81,11 +83,15 @@ class ViewOrder extends ViewRecord
 }
 ```
 
-The schema replaces the page's heading and subheading. Breadcrumbs and the header actions row are untouched, so `getHeaderActions()` keeps working exactly as before.
+The schema replaces the page's heading and subheading. Breadcrumbs and the header actions row are untouched, so `getHeaderActions()` keeps working exactly as before — they are pinned to the top of the header rather than centred against it, so they stay level with the heading however tall the schema grows.
+
+![A list page header with a heading and a computed subheading](art/list-page.png)
 
 ### Falling back to the old way
 
 The trait is additive. A page with no `headerSchema()` method — or one whose schema resolves to no components — renders Filament's native heading, unchanged. You can apply the trait to a base page class and opt individual pages in over time.
+
+![A create page keeping Filament's native heading](art/fallback-page.png)
 
 To take the header over completely, define `getHeader()` on the page as you always would. A method on the page wins over one inherited from a trait, so your Blade view is used and the schema is ignored:
 
@@ -171,6 +177,29 @@ HeaderSection::make([
 
 Slots with no components are not rendered. The three slots stack in a column on small screens and become a row from the `sm` breakpoint; `->from('md')` moves that, and `->verticallyAlignStart()` / `->verticallyAlignCenter()` / `->verticallyAlignEnd()` control cross-axis alignment. Nest a `Flex` inside a slot for anything that should sit side by side, such as a row of badges.
 
+![A customer page header with a large avatar, an icon-decorated heading and two figures](art/customer-page.png)
+
+One Filament habit worth knowing: components inside a `Flex` grow to fill the available width by default, which spreads a row of badges across the whole header. Call `->grow(false)` on them to pack them together:
+
+```php
+Flex::make([
+    TextEntry::make('status')->badge()->hiddenLabel()->grow(false),
+    TextEntry::make('placed_at')->date()->hiddenLabel()->grow(false),
+])
+```
+
+The trailing slot handles this for you, since it always sizes to its content.
+
+### Spacing
+
+A header schema is dense by default — Filament's usual schema gap is built for page content and reads as loose next to a heading. Call `->dense(false)` on the schema for the roomier spacing.
+
+### Dark mode
+
+Nothing to configure. Every colour is a Filament token, so a panel's own palette carries through:
+
+![The same record page header in dark mode](art/view-page-dark.png)
+
 ### Labels
 
 Infolist entries render their label by default, which is rarely what a header wants. Call `->hiddenLabel()` on entries you place in a header schema. `Heading` and `Subheading` never render one.
@@ -180,6 +209,16 @@ Infolist entries render their label by default, which is rarely what a header wa
 ```bash
 composer test
 ```
+
+## Demo app
+
+A Filament panel with two resources and seeded data lives in [workbench/](workbench/). It covers a record header, a list header, a quieter edit header, and a page that keeps Filament's native heading for comparison.
+
+```bash
+composer serve
+```
+
+Then open <http://localhost:8000> — you are logged in automatically. `composer build` rebuilds the database and republishes assets without starting the server.
 
 ## Changelog
 
