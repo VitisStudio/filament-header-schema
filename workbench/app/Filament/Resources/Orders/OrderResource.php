@@ -22,6 +22,9 @@ class OrderResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    // `make:filament-header-schema` seeds the generated heading with this.
+    protected static ?string $recordTitleAttribute = 'reference';
+
     public static function form(Schema $schema): Schema
     {
         return $schema->components([

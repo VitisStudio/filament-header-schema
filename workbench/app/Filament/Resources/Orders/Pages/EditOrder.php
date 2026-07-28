@@ -13,7 +13,9 @@ use VitisStudio\FilamentHeaderSchema\Concerns\HasHeaderSchema;
 use Workbench\App\Filament\Resources\Orders\OrderResource;
 
 /**
- * A quieter header: a level 2 heading keeps the emphasis on the form below.
+ * The override: a `headerSchema()` method on the page wins over the
+ * conventional `Schemas/OrderHeader.php`. A quieter level 2 heading keeps the
+ * emphasis on the form below.
  */
 class EditOrder extends EditRecord
 {

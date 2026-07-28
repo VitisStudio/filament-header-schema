@@ -274,7 +274,16 @@ composer test
 
 ## Demo app
 
-A Filament panel with two resources and seeded data lives in [workbench/](workbench/). It covers a record header, a list header, a quieter edit header, and a page that keeps Filament's native heading for comparison.
+A Filament panel with two resources and seeded data lives in [workbench/](workbench/). Its Orders resource is wired up the way `make:filament-header-schema` leaves things, so every path through the package is visible at once:
+
+| Page | What it shows |
+|---|---|
+| `ListOrders` | The convention — trait only, header from `Schemas/OrderHeader.php`, no record so the schema's record-specific parts hide themselves |
+| `ViewOrder` | The same class with a record: avatar, badge row and description |
+| `EditOrder` | An inline `headerSchema()` overriding the conventional class |
+| `CreateOrder` | No trait — Filament's native heading, untouched |
+| `ViewCustomer` | An inline `headerSchema()` on a resource with no generated class |
+| `ListCustomers` | No trait — the baseline to compare against |
 
 ```bash
 composer serve
