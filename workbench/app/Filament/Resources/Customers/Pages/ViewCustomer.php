@@ -30,10 +30,17 @@ class ViewCustomer extends ViewRecord
     {
         return $schema->components([
             HeaderSection::make([
-                Heading::make('name')
-                    ->icon(fn (Customer $record): ?Heroicon => $record->is_priority ? Heroicon::OutlinedStar : null)
-                    ->iconPosition('after')
-                    ->iconSize('lg'),
+                Flex::make([
+                    Heading::make('name')->grow(false),
+                    Action::make('favorite')
+                        ->iconButton()
+                        ->iconSize('lg')
+                        ->icon(fn (Customer $record): Heroicon => $record->is_priority ? Heroicon::Star : Heroicon::OutlinedStar)
+                        ->color(fn (Customer $record): string => $record->is_priority ? 'warning' : 'gray')
+                        ->tooltip(fn (Customer $record): string => $record->is_priority ? 'Unfavorite' : 'Favorite')
+                        ->action(fn (Customer $record) => $record->update(['is_priority' => ! $record->is_priority]))
+                        ->extraAttributes(['class' => 'self-end bg-red-500!']),
+                ])->verticallyAlignCenter(),
                 Subheading::make('email')->icon(Heroicon::OutlinedEnvelope)->size('md'),
             ])
                 ->leading(
