@@ -3,12 +3,12 @@ parameters:
     paths:
         - src
         # The trait is only ever applied by consuming applications, so the test
-        # fixture pages are analysed too — otherwise PHPStan never sees it used.
+        # fixture pages are analyzed too — otherwise PHPStan never sees it used.
         - tests/Fixtures
     ignoreErrors:
         # Larastan builds its list of known views by stripping the view
         # directory prefix off each Blade file it finds, so the names it
-        # produces are never namespaced. It therefore cannot recognise a view
+        # produces are never namespaced. It therefore cannot recognize a view
         # a package registers under its own namespace, and flags every one as
         # unknown. The check is inapplicable here rather than failing.
         -

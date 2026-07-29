@@ -94,7 +94,7 @@ it('falls back to the placeholder when heading state is blank', function () {
     expect($html)->toContain('No customer');
 });
 
-it('applies size, weight and colour modifiers to a heading', function () {
+it('applies size, weight and color modifiers to a heading', function () {
     $html = renderHeader([
         Heading::make('reference')
             ->size('2xl')
@@ -142,7 +142,7 @@ it('renders a subheading as a paragraph', function () {
         ->toContain('ACME Corp');
 });
 
-it('applies size and colour modifiers to a subheading', function () {
+it('applies size and color modifiers to a subheading', function () {
     $html = renderHeader([
         Subheading::make('customer_name')->size('sm')->color('primary'),
     ]);

@@ -1,6 +1,6 @@
 /*
  * Plain CSS — no Tailwind, no build step. Every value is a Filament design
- * token, so a panel with a custom theme picks up its own colours, spacing and
+ * token, so a panel with a custom theme picks up its own colors, spacing and
  * type scale for free. Breakpoints match Tailwind's defaults, which is what
  * Filament itself ships.
  *
@@ -12,7 +12,7 @@
     min-width: 0;
 }
 
-/* Filament centres the actions row against the heading, which reads correctly
+/* Filament centers the actions row against the heading, which reads correctly
    for one line of text but leaves the actions floating in the middle of a
    header schema tall enough to hold an avatar, a badge row and a description.
    Pin them to the top instead. Filament's own `sm:mt-7` on the actions
@@ -29,7 +29,7 @@
    ---------------------------------------------------------------------- */
 
 /* Block by default so the element inherits `text-align` from whatever slot it
-   sits in; flex only when an icon has to be centred against the text. */
+   sits in; flex only when an icon has to be centered against the text. */
 
 .fi-hs-heading {
     display: block;

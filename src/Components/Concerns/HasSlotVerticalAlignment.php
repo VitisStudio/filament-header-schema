@@ -11,7 +11,7 @@ use Filament\Support\Enums\VerticalAlignment;
  *
  * Filament's own `HasVerticalAlignment` covers the section, but a header often
  * wants one slot to break ranks — an avatar pinned to the top of a header whose
- * heading and badges are centred, say:
+ * heading and badges are centered, say:
  *
  *     ->leadingVerticallyAlignStart()
  *

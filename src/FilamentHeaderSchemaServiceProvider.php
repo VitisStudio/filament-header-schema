@@ -32,7 +32,7 @@ class FilamentHeaderSchemaServiceProvider extends PackageServiceProvider
     /**
      * The package's styles are hand-written CSS built entirely on Filament's own
      * design tokens, so there is no build step and no asset to publish. Inlining
-     * them means a custom theme picks up the user's colours and spacing for free.
+     * them means a custom theme picks up the user's colors and spacing for free.
      */
     protected static function css(): string
     {
