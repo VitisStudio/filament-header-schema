@@ -203,7 +203,6 @@
     text-align: end;
 }
 
-
 .fi-hs-heading.fi-hs-size-xs,
 .fi-hs-subheading.fi-hs-size-xs {
     font-size: var(--text-xs);
@@ -321,9 +320,19 @@
     flex: 0 1 auto;
 }
 
+/* `min-width: 0` either way, so a long heading truncates instead of forcing
+   the section wider than its container. */
+
 .fi-hs-section-main {
-    flex: 1 1 auto;
     min-width: 0;
+}
+
+/* `->grow()` is on by default: the main slot takes the leftover width, which
+   is what pushes the trailing slot to the far edge. `->grow(false)` drops this
+   class so the slot sizes to its content and the three pack together. */
+
+.fi-hs-section-main.fi-growable {
+    flex: 1 1 auto;
 }
 
 .fi-hs-section.fi-from-default {

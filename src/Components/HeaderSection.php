@@ -32,6 +32,13 @@ use Illuminate\Contracts\Support\Htmlable;
  *
  * The three slots sit in a column on small screens and become a row from the
  * breakpoint given to `->from()`, which defaults to `sm`.
+ *
+ * Filament's `->grow()` controls the main slot. It grows by default, taking the
+ * leftover width, which is what holds the trailing slot against the far edge.
+ * `->grow(false)` lets it size to its content so the slots pack together:
+ *
+ *     ->grow()       [avatar][ heading ..................... ][ total ]
+ *     ->grow(false)  [avatar][ heading ][ total ]
  */
 class HeaderSection extends Component implements HasEmbeddedView
 {
@@ -108,6 +115,16 @@ class HeaderSection extends Component implements HasEmbeddedView
                 ($verticalAlignment instanceof VerticalAlignment) ? "fi-vertical-align-{$verticalAlignment->value}" : $verticalAlignment,
             ]);
 
+        // Filament's own `grow()`, read here for the main slot: growing takes
+        // the leftover width and pushes the trailing slot to the far edge,
+        // while `->grow(false)` lets the main slot hug its content so the three
+        // slots pack together.
+        $mainAttributes = (new FilamentComponentAttributeBag)
+            ->class([
+                'fi-hs-section-main',
+                'fi-growable' => $this->canGrow(),
+            ]);
+
         // Slots are rendered before the buffer opens so a throwing child
         // component does not leave a dangling output buffer behind.
         $leading = $this->getChildSchema(static::LEADING_SCHEMA_KEY)?->toHtml();
@@ -123,7 +140,7 @@ class HeaderSection extends Component implements HasEmbeddedView
                 </div>
             <?php } ?>
 
-            <div class="fi-hs-section-main">
+            <div <?= $mainAttributes->toHtml() ?>>
                 <?= $main ?>
             </div>
 

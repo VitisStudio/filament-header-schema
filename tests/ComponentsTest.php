@@ -180,6 +180,36 @@ it('omits header section slots that have no components', function () {
         ->not->toContain('fi-hs-section-trailing');
 });
 
+it('grows the main slot by default, holding the trailing slot at the far edge', function () {
+    $html = renderHeader([
+        HeaderSection::make([Heading::make('reference')])
+            ->trailing(TextEntry::make('customer_name')->hiddenLabel()),
+    ]);
+
+    expect($html)->toContain('fi-hs-section-main fi-growable');
+});
+
+it('lets the main slot hug its content when growing is turned off', function () {
+    $html = renderHeader([
+        HeaderSection::make([Heading::make('reference')])
+            ->grow(false)
+            ->trailing(TextEntry::make('customer_name')->hiddenLabel()),
+    ]);
+
+    expect($html)
+        ->toContain('fi-hs-section-main')
+        ->not->toContain('fi-hs-section-main fi-growable');
+});
+
+it('accepts a closure for main slot growing', function () {
+    $html = renderHeader([
+        HeaderSection::make([Heading::make('reference')])
+            ->grow(fn (): bool => false),
+    ]);
+
+    expect($html)->not->toContain('fi-growable');
+});
+
 it('stacks a header section until the sm breakpoint by default', function () {
     expect(renderHeader([HeaderSection::make([Heading::make('reference')])]))
         ->toContain('fi-from-sm')

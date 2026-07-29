@@ -239,6 +239,19 @@ HeaderSection::make([
 
 Slots with no components are not rendered. The three slots stack in a column on small screens and become a row from the `sm` breakpoint; `->from('md')` moves that, and `->verticallyAlignStart()` / `->verticallyAlignCenter()` / `->verticallyAlignEnd()` control cross-axis alignment. Nest a `Flex` inside a slot for anything that should sit side by side, such as a row of badges.
 
+Filament's `->grow()` controls the width of the main slot. It grows by default, taking the leftover width — which is what holds the trailing slot against the far edge. Turn it off and the main slot sizes to its content, so the slots pack together:
+
+```
+->grow()        [avatar] [ heading .......................... ] [ total ]
+->grow(false)   [avatar] [ heading ] [ total ]
+```
+
+```php
+HeaderSection::make([Heading::make('name')])
+    ->grow(false)
+    ->trailing(TextEntry::make('total')->money()->hiddenLabel())
+```
+
 ![A customer page header with a large avatar, an icon-decorated heading and two figures](art/customer-page.png)
 
 One Filament habit worth knowing: components inside a `Flex` grow to fill the available width by default, which spreads a row of badges across the whole header. Call `->grow(false)` on them to pack them together:
