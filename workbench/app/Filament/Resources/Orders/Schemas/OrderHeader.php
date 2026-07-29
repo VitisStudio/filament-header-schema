@@ -6,6 +6,7 @@ use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Flex;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\VerticalAlignment;
 use Filament\Support\Icons\Heroicon;
 use VitisStudio\FilamentHeaderSchema\Components\HeaderSection;
 use VitisStudio\FilamentHeaderSchema\Components\Heading;
@@ -59,6 +60,7 @@ class OrderHeader
                             ->circular()
                             ->imageSize(64)
                             ->visible(fn (?Order $record): bool => filled($record)),
+                        VerticalAlignment::Start,
                     ),
             ]);
     }
