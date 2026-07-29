@@ -1,3 +1,5 @@
+![Header Schema for Filament — the leading, main and trailing slots, and the page header they produce](art/hero.png)
+
 # Filament Header Schema
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vitisstudio/filament-header-schema.svg?style=flat-square)](https://packagist.org/packages/vitisstudio/filament-header-schema)
