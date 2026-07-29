@@ -241,6 +241,30 @@ HeaderSection::make([
 
 Slots with no components are not rendered. The three slots stack in a column on small screens and become a row from the `sm` breakpoint; `->from('md')` moves that, and `->verticallyAlignStart()` / `->verticallyAlignCenter()` / `->verticallyAlignEnd()` control cross-axis alignment. Nest a `Flex` inside a slot for anything that should sit side by side, such as a row of badges.
 
+Any slot can break from the section's alignment, which is what pins an avatar to the top of a header whose other slots stay centred. Pass a `VerticalAlignment` as the second argument of the method that fills the slot:
+
+```php
+use Filament\Support\Enums\VerticalAlignment;
+
+HeaderSection::make([
+    Heading::make('name'),
+    Subheading::make('email'),
+], VerticalAlignment::Start)
+    ->leading(ImageEntry::make('avatar')->circular()->hiddenLabel(), VerticalAlignment::Start)
+    ->trailing(TextEntry::make('lifetime_value')->money()->hiddenLabel(), VerticalAlignment::End)
+```
+
+Or set it separately, with the same three shortcuts the section has:
+
+```php
+HeaderSection::make([Heading::make('name')])
+    ->leadingVerticallyAlignStart()   // ->leadingVerticallyAlignCenter(), ->leadingVerticallyAlignEnd()
+    ->mainVerticallyAlignStart()      // ->mainVerticallyAlign*()
+    ->trailingVerticallyAlignEnd()    // ->trailingVerticallyAlign*()
+```
+
+`->leadingVerticalAlignment()`, `->mainVerticalAlignment()` and `->trailingVerticalAlignment()` take a `VerticalAlignment` case, a string or a closure. A slot that says nothing follows the section.
+
 Filament's `->grow()` controls the width of the main slot. It grows by default, taking the leftover width — which is what holds the trailing slot against the far edge. Turn it off and the main slot sizes to its content, so the slots pack together:
 
 ```

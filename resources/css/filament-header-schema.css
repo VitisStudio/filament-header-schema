@@ -335,6 +335,12 @@
     flex: 1 1 auto;
 }
 
+/* Cross-axis alignment only means anything once the slots sit in a row, so both
+   the section's `align-items` and a slot's own `align-self` are scoped to the
+   breakpoint the section becomes one at. `align-self` wins over the section's
+   `align-items` whatever the specificity, which is what lets a single slot
+   break from the alignment the other two follow. */
+
 .fi-hs-section.fi-from-default {
     flex-direction: row;
     align-items: flex-start;
@@ -346,6 +352,18 @@
 
 .fi-hs-section.fi-from-default.fi-vertical-align-end {
     align-items: flex-end;
+}
+
+.fi-hs-section.fi-from-default > .fi-vertical-align-start {
+    align-self: flex-start;
+}
+
+.fi-hs-section.fi-from-default > .fi-vertical-align-center {
+    align-self: center;
+}
+
+.fi-hs-section.fi-from-default > .fi-vertical-align-end {
+    align-self: flex-end;
 }
 
 .fi-hs-section.fi-from-default > .fi-hs-section-trailing {
@@ -364,6 +382,18 @@
 
     .fi-hs-section.fi-from-sm.fi-vertical-align-end {
         align-items: flex-end;
+    }
+
+    .fi-hs-section.fi-from-sm > .fi-vertical-align-start {
+        align-self: flex-start;
+    }
+
+    .fi-hs-section.fi-from-sm > .fi-vertical-align-center {
+        align-self: center;
+    }
+
+    .fi-hs-section.fi-from-sm > .fi-vertical-align-end {
+        align-self: flex-end;
     }
 
     .fi-hs-section.fi-from-sm > .fi-hs-section-trailing {
@@ -385,6 +415,18 @@
         align-items: flex-end;
     }
 
+    .fi-hs-section.fi-from-md > .fi-vertical-align-start {
+        align-self: flex-start;
+    }
+
+    .fi-hs-section.fi-from-md > .fi-vertical-align-center {
+        align-self: center;
+    }
+
+    .fi-hs-section.fi-from-md > .fi-vertical-align-end {
+        align-self: flex-end;
+    }
+
     .fi-hs-section.fi-from-md > .fi-hs-section-trailing {
         text-align: end;
     }
@@ -402,6 +444,18 @@
 
     .fi-hs-section.fi-from-lg.fi-vertical-align-end {
         align-items: flex-end;
+    }
+
+    .fi-hs-section.fi-from-lg > .fi-vertical-align-start {
+        align-self: flex-start;
+    }
+
+    .fi-hs-section.fi-from-lg > .fi-vertical-align-center {
+        align-self: center;
+    }
+
+    .fi-hs-section.fi-from-lg > .fi-vertical-align-end {
+        align-self: flex-end;
     }
 
     .fi-hs-section.fi-from-lg > .fi-hs-section-trailing {
@@ -423,6 +477,18 @@
         align-items: flex-end;
     }
 
+    .fi-hs-section.fi-from-xl > .fi-vertical-align-start {
+        align-self: flex-start;
+    }
+
+    .fi-hs-section.fi-from-xl > .fi-vertical-align-center {
+        align-self: center;
+    }
+
+    .fi-hs-section.fi-from-xl > .fi-vertical-align-end {
+        align-self: flex-end;
+    }
+
     .fi-hs-section.fi-from-xl > .fi-hs-section-trailing {
         text-align: end;
     }
@@ -440,6 +506,18 @@
 
     .fi-hs-section.fi-from-2xl.fi-vertical-align-end {
         align-items: flex-end;
+    }
+
+    .fi-hs-section.fi-from-2xl > .fi-vertical-align-start {
+        align-self: flex-start;
+    }
+
+    .fi-hs-section.fi-from-2xl > .fi-vertical-align-center {
+        align-self: center;
+    }
+
+    .fi-hs-section.fi-from-2xl > .fi-vertical-align-end {
+        align-self: flex-end;
     }
 
     .fi-hs-section.fi-from-2xl > .fi-hs-section-trailing {

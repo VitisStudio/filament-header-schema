@@ -4,6 +4,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
+use Filament\Support\Enums\VerticalAlignment;
 use Filament\Support\Icons\Heroicon;
 use Livewire\Livewire;
 use VitisStudio\FilamentHeaderSchema\Components\HeaderSection;
@@ -219,4 +220,88 @@ it('stacks a header section until the sm breakpoint by default', function () {
 it('accepts a different breakpoint for a header section', function () {
     expect(renderHeader([HeaderSection::make([Heading::make('reference')])->from('lg')]))
         ->toContain('fi-from-lg');
+});
+
+it('leaves the slots to follow the section alignment by default', function () {
+    $html = renderHeader([
+        HeaderSection::make([Heading::make('reference')])
+            ->leading(TextEntry::make('status')->hiddenLabel())
+            ->trailing(TextEntry::make('customer_name')->hiddenLabel()),
+    ]);
+
+    expect($html)
+        ->toContain('class="fi-hs-section-leading"')
+        ->toContain('class="fi-hs-section-trailing"');
+});
+
+it('aligns the leading and trailing slots independently of the section', function () {
+    $html = renderHeader([
+        HeaderSection::make([Heading::make('reference')])
+            ->leadingVerticallyAlignStart()
+            ->trailingVerticallyAlignEnd()
+            ->leading(TextEntry::make('status')->hiddenLabel())
+            ->trailing(TextEntry::make('customer_name')->hiddenLabel()),
+    ]);
+
+    expect($html)
+        ->toContain('fi-hs-section-leading fi-vertical-align-start')
+        ->toContain('fi-hs-section-trailing fi-vertical-align-end')
+        // The section keeps its own alignment for the slots that said nothing.
+        ->toContain('fi-vertical-align-center');
+});
+
+it('accepts an enum, a string and a closure for slot alignment', function () {
+    $html = renderHeader([
+        HeaderSection::make([Heading::make('reference')])
+            ->leadingVerticalAlignment(VerticalAlignment::End)
+            ->trailingVerticalAlignment(fn (): string => 'start')
+            ->leading(TextEntry::make('status')->hiddenLabel())
+            ->trailing(TextEntry::make('customer_name')->hiddenLabel()),
+    ]);
+
+    expect($html)
+        ->toContain('fi-hs-section-leading fi-vertical-align-end')
+        ->toContain('fi-hs-section-trailing fi-vertical-align-start');
+});
+
+it('aligns the main slot independently of the section', function () {
+    $html = renderHeader([
+        HeaderSection::make([Heading::make('reference')])
+            ->mainVerticallyAlignStart(),
+    ]);
+
+    expect($html)->toContain('fi-hs-section-main fi-growable fi-vertical-align-start');
+});
+
+it('takes a slot alignment as the second argument of the method that fills it', function () {
+    $html = renderHeader([
+        HeaderSection::make([Heading::make('reference')], VerticalAlignment::Center)
+            ->leading(TextEntry::make('status')->hiddenLabel(), VerticalAlignment::Start)
+            ->trailing(TextEntry::make('customer_name')->hiddenLabel(), 'end'),
+    ]);
+
+    expect($html)
+        ->toContain('fi-hs-section-leading fi-vertical-align-start')
+        ->toContain('fi-hs-section-main fi-growable fi-vertical-align-center')
+        ->toContain('fi-hs-section-trailing fi-vertical-align-end');
+});
+
+it('leaves a slot alignment alone when the second argument is omitted', function () {
+    $html = renderHeader([
+        HeaderSection::make([Heading::make('reference')])
+            ->leadingVerticallyAlignEnd()
+            ->leading(TextEntry::make('status')->hiddenLabel()),
+    ]);
+
+    expect($html)->toContain('fi-hs-section-leading fi-vertical-align-end');
+});
+
+it('does not align a slot when the condition is false', function () {
+    $html = renderHeader([
+        HeaderSection::make([Heading::make('reference')])
+            ->leadingVerticallyAlignStart(false)
+            ->leading(TextEntry::make('status')->hiddenLabel()),
+    ]);
+
+    expect($html)->toContain('class="fi-hs-section-leading"');
 });
