@@ -1,0 +1,38 @@
+# Groups merged pull requests into sections when GitHub generates release
+# notes. Only takes effect once this file is on the default branch, and only
+# for releases created with "Generate release notes".
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+      - duplicate
+      - invalid
+      - wontfix
+      - question
+  categories:
+    - title: Breaking changes
+      labels:
+        - breaking-change
+
+    - title: Features
+      labels:
+        - enhancement
+        - feature
+
+    - title: Bug fixes
+      labels:
+        - bug
+
+    - title: Documentation
+      labels:
+        - documentation
+
+    - title: Dependencies
+      labels:
+        - dependencies
+
+    # Anything that carried no label above, so nothing merged is ever silently
+    # dropped from the notes.
+    - title: Other changes
+      labels:
+        - "*"
