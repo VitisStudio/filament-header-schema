@@ -2,6 +2,19 @@
 
 All notable changes to `filament-header-schema` will be documented in this file.
 
+## v1.0.1 - Plugin Directory Cleanup - 2026-08-18
+
+Cleanup pass on the assets and CI config needed for the Filament plugin directory submission — no code changes.
+
+### Fixed
+
+- Replaced `art/hero.png` with a 2560×1440 JPEG. The plugin directory rejects submission artwork below that resolution; the previous hero was 1672×941.
+- Fixed two `.github` workflow files still carrying unreplaced package-skeleton placeholders (`:vendor_slug/:package_name`). The broken one mattered: the Dependabot auto-merge guard compared `github.repository` against a literal placeholder, so the condition could never be true and no Dependabot PR has ever auto-merged.
+
+### Added
+
+- `.github/release.yml`, so GitHub groups future generated release notes by pull request label instead of listing every merged PR flat.
+
 ## v1.0.0 - Initial Release - 2026-08-18
 
 Build the header of a Filament page with a schema instead of a Blade view.
@@ -26,6 +39,7 @@ Filament gives you `getHeading()` and `getSubheading()` for plain text, and `get
 
 ```bash
 composer require vitisstudio/filament-header-schema
+
 
 ```
 See the [README](https://github.com/VitisStudio/filament-header-schema#readme) for the full documentation, and `workbench/` for a demo panel covering every path through the package.
