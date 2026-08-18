@@ -1,6 +1,6 @@
 <div class="filament-hidden">
 
-![Header Schema for Filament — the leading, main and trailing slots, and the page header they produce](art/hero.png)
+![Header Schema for Filament — the leading, main and trailing slots, and the page header they produce](art/hero.jpg)
 
 </div>
 
