@@ -2,6 +2,12 @@
 
 All notable changes to `filament-header-schema` will be documented in this file.
 
+## v1.0.2 - Widen Filament Support - 2026-08-18
+
+### Fixed
+
+- Lowered the Filament requirement from `^5.7` to `^5.0`. The 5.7 floor was never a real requirement — every API this package uses has existed unchanged since Filament 5.0.0, so pinning to 5.7 excluded five minor releases of installs for no reason.
+
 ## v1.0.1 - Plugin Directory Cleanup - 2026-08-18
 
 Cleanup pass on the assets and CI config needed for the Filament plugin directory submission — no code changes.
@@ -39,6 +45,7 @@ Filament gives you `getHeading()` and `getSubheading()` for plain text, and `get
 
 ```bash
 composer require vitisstudio/filament-header-schema
+
 
 
 ```
