@@ -92,7 +92,7 @@ Everything you can put in an infolist works, because a header schema *is* a sche
 
 - PHP 8.2+
 - Laravel 11.28, 12 or 13
-- Filament 5.0+
+- Filament 5.7+
 
 ## Installation
 

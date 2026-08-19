@@ -36,12 +36,15 @@ jobs:
           - laravel: 13.*
             php: 8.2
         include:
+          # Constraints, not wildcards: the install step overwrites whatever
+          # composer.json declares, so `9.*` would let --prefer-lowest pick a
+          # testbench older than the floor the package actually supports.
           - laravel: 13.*
-            testbench: 11.*
+            testbench: ^11.0
           - laravel: 12.*
-            testbench: 10.*
+            testbench: ^10.0
           - laravel: 11.*
-            testbench: 9.*
+            testbench: ^9.7
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
