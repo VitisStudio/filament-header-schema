@@ -2,6 +2,40 @@
 
 All notable changes to `filament-header-schema` will be documented in this file.
 
+## v1.0.3 - Dependency Constraint Fixes - 2026-08-19
+
+> **If you are on v1.0.2, upgrade.** That release declared `filament/filament: ^5.0`, but the components construct `Filament\Support\View\ComponentAttributeBag`, which does not exist before Filament v5.7.0. Installing v1.0.2 against Filament 5.0–5.6 resolves successfully and then fatals at render time with a missing class. The requirement is back to `^5.7`, which is the version this package has always actually needed.
+
+### Fixed
+
+- Restored the `filament/filament: ^5.7` requirement, reverting the incorrect widening to `^5.0` shipped in v1.0.2.
+- Raised `orchestra/testbench` to `^9.7`. `testbench.yaml` points `laravel` at the `@testbench` skeleton alias, which testbench-core only learned to resolve in v9.7.0 — older versions treat it as a literal path and abort `package:discover` during install.
+- Widened the Pest requirement to span both major lines (`^3.8||^4.1`). Pest v4 requires PHP ^8.3, so the PHP 8.2 legs could never install; but `pest-plugin-laravel`'s v3 line never gained Laravel 13 support, so neither major covers the full support matrix alone.
+- Corrected the CI matrix to pin testbench with constraints rather than wildcards. The install step overwrites whatever `composer.json` declares, so `9.*` let `--prefer-lowest` select versions below the supported floor regardless of the manifest.
+
+### Security
+
+- Added `SECURITY.md`, so vulnerability reports have a documented private channel instead of a public issue.
+- Pinned all 12 third-party GitHub Action references to full commit SHAs. A tag can be silently re-pointed by a compromised maintainer — the mechanism behind the March 2025 `tj-actions/changed-files` incident.
+- Raised Dependabot's cooldown from 1 to 3 days, so a malicious release has a window to be identified before it is pulled in.
+
+<!-- Release notes generated using configuration in .github/release.yml at main -->
+### What's Changed
+
+#### Bug fixes
+
+* Fix PHP 8.2 CI matrix legs by @acepoblete in https://github.com/VitisStudio/filament-header-schema/pull/2
+
+#### Other changes
+
+* Security hardening by @acepoblete in https://github.com/VitisStudio/filament-header-schema/pull/1
+
+### New Contributors
+
+* @acepoblete made their first contribution in https://github.com/VitisStudio/filament-header-schema/pull/2
+
+**Full Changelog**: https://github.com/VitisStudio/filament-header-schema/compare/v1.0.2...v1.0.3
+
 ## v1.0.2 - Widen Filament Support - 2026-08-18
 
 ### Fixed
@@ -45,6 +79,7 @@ Filament gives you `getHeading()` and `getSubheading()` for plain text, and `get
 
 ```bash
 composer require vitisstudio/filament-header-schema
+
 
 
 
