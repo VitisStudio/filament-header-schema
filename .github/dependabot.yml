@@ -11,7 +11,7 @@ updates:
     labels:
       - "dependencies"
     cooldown:
-      default-days: 1
+      default-days: 3
 
   - package-ecosystem: "composer"
     directory: "/"
@@ -20,4 +20,4 @@ updates:
     labels:
       - "dependencies"
     cooldown:
-      default-days: 1
+      default-days: 3
