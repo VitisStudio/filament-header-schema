@@ -27,12 +27,26 @@ trait CanApplyTraitToClass
         $contents = $filesystem->get($path);
         $basename = class_basename($traitFqn);
 
+        // Windows checkouts, and repositories that force CRLF through
+        // `.gitattributes`, hand us `\r\n`. Every `$` anchor below would then
+        // fail to match, because PCRE's multiline `$` sits before the `\n` and
+        // the `\r` is in the way — the import would be skipped silently and the
+        // trait statement written with the wrong ending. Normalize for the edit
+        // and restore the file's own ending on the way out. A file that mixes
+        // both endings is settled on the one it uses first.
+        $ending = (preg_match('/\r\n|\n/', $contents, $match) === 1) ? $match[0] : "\n";
+        $contents = str_replace("\r\n", "\n", $contents);
+
         if ($this->classBodyUsesTrait($contents, $basename)) {
             return false;
         }
 
         $contents = $this->insertImport($contents, $traitFqn);
         $contents = $this->insertTraitUse($contents, $basename);
+
+        if ($ending !== "\n") {
+            $contents = str_replace("\n", $ending, $contents);
+        }
 
         $filesystem->put($path, $contents);
 
