@@ -81,9 +81,33 @@ it('applies the trait to the pages that were selected', function () {
 
     makeHeaderSchema(['--page' => ['view']])->assertSuccessful();
 
-    expect(File::get($path))
+    // Normalized because a Windows checkout hands the fixture over as CRLF and
+    // the command preserves whatever the file already used.
+    expect(str_replace("\r\n", "\n", File::get($path)))
         ->toContain('use VitisStudio\FilamentHeaderSchema\Concerns\HasHeaderSchema;')
         ->toContain("\n    use HasHeaderSchema;\n");
+});
+
+it('applies the trait to a page that uses CRLF line endings', function () {
+    $path = $this->pagesDirectory.'/ViewBareOrder.php';
+
+    // What a Windows checkout, or `.gitattributes` forcing CRLF, leaves behind.
+    // Normalized first so the fixture converts cleanly whichever way it arrived.
+    File::put($path, str_replace("\n", "\r\n", str_replace("\r\n", "\n", File::get($path))));
+
+    makeHeaderSchema(['--page' => ['view']])->assertSuccessful();
+
+    $contents = File::get($path);
+
+    expect($contents)
+        // The import is the part that used to go missing: every `$` anchor in
+        // the command failed to match, so it was skipped without a word.
+        ->toContain("use VitisStudio\FilamentHeaderSchema\Concerns\HasHeaderSchema;\r\n")
+        ->toContain("\r\n    use HasHeaderSchema;\r\n");
+
+    // Every newline in the file is still half of a CRLF pair — nothing was
+    // written with the wrong ending, and nothing was left half-converted.
+    expect(substr_count($contents, "\n"))->toBe(substr_count($contents, "\r\n"));
 });
 
 it('applies the trait to several pages at once', function () {
