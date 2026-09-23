@@ -202,7 +202,7 @@ Actions are schema components in Filament, so an `Action` drops straight into a 
 
 A `headerSchema()` method on the page takes precedence over the conventional `Schemas` class, so you can generate one for the resource and still override it on a single page.
 
-The schema replaces the page's heading and subheading. Breadcrumbs and the header actions row are untouched, so `getHeaderActions()` keeps working exactly as before — they are pinned to the top of the header rather than centered against it, so they stay level with the heading however tall the schema grows.
+The schema replaces the page's heading and subheading. Breadcrumbs and the header actions row are untouched, so `getHeaderActions()` keeps working exactly as before, with two differences in where the row lands. It sits under the header until `lg` rather than Filament's `sm`, because a schema carrying an avatar, badges and a description needs the width to itself on a narrow page; and once the two are side by side it is pinned to the top rather than centered, so it stays level with the heading however tall the schema grows.
 
 ![A list page header with a heading and a computed subheading](art/list-page.png)
 

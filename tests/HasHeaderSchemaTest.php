@@ -21,6 +21,16 @@ it('renders the header schema on a view page', function () {
         ->assertSee('ACME Corp');
 });
 
+it('wraps the header in the element its container queries are asked of', function () {
+    // Without the wrapper the queries fall through to whatever container the
+    // consuming app happens to have, or to none, and the actions row goes back
+    // to answering the window.
+    $order = order();
+
+    Livewire::test(ViewOrder::class, ['record' => $order->getKey()])
+        ->assertSeeHtml('<div class="fi-hs-header-ctn">');
+});
+
 it('replaces the native heading but keeps header actions', function () {
     $order = order();
 
