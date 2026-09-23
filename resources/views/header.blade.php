@@ -11,6 +11,10 @@
 {{-- Mirrors filament-panels::components.header so third-party render hooks and
      the actions row keep working; only the heading and subheading are replaced
      by the page's header schema. --}}
+{{-- The header queries this wrapper's width rather than the window's: a page
+     with the sidebar open can be 1100px of window and 800px of content, and a
+     media query cannot tell those apart. --}}
+<div class="fi-hs-header-ctn">
 <header
     @class([
         'fi-header',
@@ -45,3 +49,4 @@
         </div>
     @endif
 </header>
+</div>

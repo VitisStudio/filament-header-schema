@@ -12,15 +12,46 @@
     min-width: 0;
 }
 
-/* Filament centers the actions row against the heading, which reads correctly
-   for one line of text but leaves the actions floating in the middle of a
-   header schema tall enough to hold an avatar, a badge row and a description.
-   Pin them to the top instead. Filament's own `sm:mt-7` on the actions
-   container already offsets the breadcrumbs, so they land level with the
-   heading rather than the breadcrumb trail. */
+/* Filament seats the actions beside the heading from 40rem of *window*. A page
+   with the sidebar open can be 1100px of window and 800px of content, and a
+   media query cannot tell those apart — so the actions take their place beside
+   a heading that then wraps mid-word. The header asks its own container
+   instead, which is what the wrapper in the blade is for.
 
-@media (min-width: 40rem) {
+   64rem of header, not of window: roomy enough for a schema carrying an
+   avatar, a badge row and a description to sit beside an actions row without
+   either being squeezed. Below that they stack.
+
+   Everything undone here is Filament's, all of it inside its own `min-width:
+   40rem` block; the `has-breadcrumbs` selector carries an extra class because
+   Filament's is three deep and a reset has to outweigh it rather than tie. */
+
+.fi-hs-header-ctn {
+    container-type: inline-size;
+    container-name: fi-hs-header;
+}
+
+@container fi-hs-header (max-width: 63.999rem) {
     .fi-header.fi-hs-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .fi-header.fi-hs-header .fi-header-actions-ctn,
+    .fi-header.fi-hs-header.fi-header-has-breadcrumbs .fi-header-actions-ctn {
+        margin-top: 0;
+    }
+}
+
+/* Side by side, Filament centers the actions against the heading, which leaves
+   them floating in the middle of a schema tall enough to hold an avatar, a
+   badge row and a description. Pin them to the top instead, level with the
+   heading; Filament's own `mt-7` still clears the breadcrumbs. */
+
+@container fi-hs-header (min-width: 64rem) {
+    .fi-header.fi-hs-header {
+        flex-direction: row;
+        justify-content: space-between;
         align-items: flex-start;
     }
 }
