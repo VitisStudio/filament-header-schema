@@ -2,6 +2,27 @@
 
 All notable changes to `filament-header-schema` will be documented in this file.
 
+## v1.1.0 - Container-Based Header Layout - 2026-09-23
+
+The header actions row now answers the width of the header rather than the width of the window, and stays under the header until there is room for it beside the heading.
+
+Filament seats the actions beside the heading from `40rem` of window. That suits its own header, which is one line of text; a header schema is an avatar, a badge row, a customer, a price and a date, and it wants the width to itself for longer. The window is also the wrong thing to ask — a page with the sidebar open can be 1100px of window and 800px of content, and a media query cannot tell those apart, so the actions take their place beside a heading that then wraps mid-word.
+
+### Changed
+
+- The rendered header is wrapped in `<div class="fi-hs-header-ctn">`, an inline-size container named `fi-hs-header`. The layout rules are `@container` queries against it, so the header responds to its own width whatever the sidebar, a split pane or a narrow column is doing to it. The container is named so it cannot bind to a nearer one a consuming app introduces.
+- The actions row sits under the header below `64rem` **of header**, with Filament's breadcrumb offset reset so the gap stays honest, and beside the heading at or above it.
+- The existing "pin the actions to the top rather than centering them" rule moved to the side-by-side branch. Centering only means anything once the two are in a row, so it belongs with the rule that puts them there.
+
+### Upgrading
+
+No API changes: `getHeaderActions()`, `headerSchema()` and every component behave as before. Two things to be aware of, both cosmetic:
+
+- There is one more element in the rendered header. Any CSS or test asserting on the header's position among its siblings should be checked, though nothing in Filament selects `.fi-header` as a direct child.
+- Headers between `40rem` and `64rem` of container width now stack where they previously sat side by side. That is the fix, but it will move pixels on pages you have already laid out.
+
+`HeaderSection`'s own `->from()` breakpoints are still media queries, so the leading, main and trailing slots continue to answer the window. That is the same problem one level down, and changing it would redefine `->from()` for every consumer, so it is left for a release of its own.
+
 ## v1.0.3 - Dependency Constraint Fixes - 2026-08-19
 
 > **If you are on v1.0.2, upgrade.** That release declared `filament/filament: ^5.0`, but the components construct `Filament\Support\View\ComponentAttributeBag`, which does not exist before Filament v5.7.0. Installing v1.0.2 against Filament 5.0–5.6 resolves successfully and then fatals at render time with a missing class. The requirement is back to `^5.7`, which is the version this package has always actually needed.
@@ -79,6 +100,7 @@ Filament gives you `getHeading()` and `getSubheading()` for plain text, and `get
 
 ```bash
 composer require vitisstudio/filament-header-schema
+
 
 
 
